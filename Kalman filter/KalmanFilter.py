@@ -11,7 +11,7 @@ class KF:
         self._P = np.eye(2) 
     
     def predict(self, dt: float) -> None:
-        F = np.array([1, dt], [0, 1])
+        F = np.array([[1, dt], [0, 1]])
         newX = F.dot(self._x)
         G = np.array([0.5 * dt**2, dt]).reshape((2, 1))
         newP = F.dot(self._P).dot(F.T) + G.dot(G.T) * self._accelVariance
