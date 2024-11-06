@@ -3,6 +3,7 @@ from ODE_Systems import *
 from NI_Methods import *
 
 ode = Sprott()
+ode = Lorenz()
 numIntegrator = euler
 
 step = ode.stepSize()
