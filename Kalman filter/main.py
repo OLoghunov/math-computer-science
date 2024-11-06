@@ -38,15 +38,13 @@ covs = []
 realXs = []
 realVs = []
 
-# Инициализация фильтра Калмана
+# KF init
 kf = KF(initialX=0.1, initialV=0.0, accelVariance=1.0)
-
-# Фильтрация временного ряда
 filtered_states = []
 
 for measurement in noisyData:
-    kf.predict(dt=ode.stepSize())  # Предсказание (dt=1, измените при необходимости)
-    kf.correct(measedValue=measurement[0], measedVariance=0.01)  # Используем только первое значение для корректировки
+    kf.predict(dt=ode.stepSize())
+    kf.correct(measedValue=measurement[0], measedVariance=0.01)
     filtered_states.append(kf.mean)
 
 filtered_states = np.array(filtered_states)
@@ -65,19 +63,5 @@ if isinstance(ode, Sprott):
     ax.set_title("Sprott Case I Attractor") 
 elif isinstance(ode, Lorenz):
     ax.set_title("Lorenz Attractor") 
-
-# plt.subplot(2,1,1)
-# plt.title("Position")
-# plt.plot([mu[0] for mu in mus])
-# plt.plot(realXs)
-# plt.plot([mu[0] - 2 * np.sqrt(cov[0,0]) for mu, cov in zip(mus,covs)], "--r")
-# plt.plot([mu[0] + 2 * np.sqrt(cov[0,0]) for mu, cov in zip(mus,covs)], "--r")
-
-# plt.subplot(2,1,2)
-# plt.title("Velocity")
-# plt.plot([mu[1] for mu in mus])
-# plt.plot(realVs)
-# plt.plot([mu[1] - 2 * np.sqrt(cov[1,1]) for mu, cov in zip(mus,covs)], "--r")
-# plt.plot([mu[1] + 2 * np.sqrt(cov[1,1]) for mu, cov in zip(mus,covs)], "--r")
-
+    
 plt.show()
