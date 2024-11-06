@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from ODE_Systems import *
 from NI_Methods import *
 
-ode = Lorenz()
+ode = Sprott()
 numIntegrator = euler
 
 step = ode.stepSize()
