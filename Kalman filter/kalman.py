@@ -2,22 +2,33 @@ import matplotlib.pyplot as plt
 from ODE_Systems import *
 from NI_Methods import *
 
+# Getting the noizy data from file
+noisyData = []
+with open("Kalman filter/data/data3.txt", "r") as file:
+    for line in file:
+        noisyData.append([float(x) for x in line.split()])
+noisyData = np.array(noisyData)
+
+# System simulation
 ode = Sprott()
 numIntegrator = euler
 
 step = ode.stepSize()
-num_steps = 10000
+num_steps = len(noisyData)
 
-xyzs = np.empty((num_steps + 1, 3))
+xyzs = np.empty((num_steps, 3))
 xyzs[0] = ode.initConditions()
 
-for i in range(num_steps):
+for i in range(num_steps - 1):
     xyzs[i + 1] = numIntegrator(ode.integrate, xyzs[i], step)
+
+# Kalman filter usage
 
 
 # Plot
 ax = plt.figure().add_subplot(projection='3d')
 
+ax.plot(*noisyData.T, lw=0.5)
 ax.plot(*xyzs.T, lw=0.5)
 ax.set_xlabel("X Axis")
 ax.set_ylabel("Y Axis")
