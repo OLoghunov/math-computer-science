@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from ODE_Systems import *
 from NI_Methods import *
+from KalmanFilter import KF
 
 # Getting the noizy data from file
 noisyData = []
@@ -23,7 +24,7 @@ for i in range(num_steps - 1):
     xyzs[i + 1] = numIntegrator(ode.integrate, xyzs[i], step)
 
 # Kalman filter usage
-
+kf = KF(0.2, 0.5, 1.2)
 
 # Plot
 ax = plt.figure().add_subplot(projection='3d')
