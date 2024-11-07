@@ -8,7 +8,7 @@ class Lorenz(baseODE):
     def stepSize(self):
         return 0.01
     
-    def integrate(self, xyz: list[float], *, s=10, r=28, b=2.667) -> list[float]:
+    def calculate(self, xyz: list[float], *, s=10, r=28, b=2.667) -> list[float]:
         x, y, z = xyz
         return np.array([s*(y - x), 
                          r*x - y - x*z, 

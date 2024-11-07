@@ -12,5 +12,5 @@ class baseODE(ABC):
         pass
 
     @abstractmethod
-    def integrate(self, xyz: list[float], **kwargs) -> list[float]:
+    def calculate(self, xyz: list[float], **kwargs) -> list[float]:
         pass
