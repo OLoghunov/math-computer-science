@@ -23,11 +23,11 @@ def main():
     step = ODE.stepSize()
     num_steps = len(noisyData)
 
-    xyzs = np.empty((num_steps, 3))
-    xyzs[0] = ODE.initConditions()
+    simulatedData = np.empty((num_steps, 3))
+    simulatedData[0] = ODE.initConditions()
 
     for i in range(num_steps - 1):
-        xyzs[i + 1] = INTEGRATOR.integrate(ODE.calculate, xyzs[i], step)
+        simulatedData[i + 1] = INTEGRATOR.integrate(ODE.calculate, simulatedData[i], step)
         
     # KF usage
     processVar = 1e-3  # process noise
@@ -38,30 +38,32 @@ def main():
     kf = KalmanFilter(processVar, measurementVar, initState)
 
     # Filtering process
-    filtered_positions = []
+    filteredData = []
     for measurement in noisyData:
         kf.predict()
         kf.correct(measurement)
-        filtered_positions.append(kf.state)
+        filteredData.append(kf.state)
 
-    filtered_positions = np.array(filtered_positions)
+    filteredData = np.array(filteredData)
 
     # Visualization
-    ax = plt.figure().add_subplot(projection = "3d")
+    ax = plt.figure().add_subplot(projection="3d")
 
-    ax.plot(*noisyData.T, "r-")
-    ax.plot(*filtered_positions.T, "b-")
-    ax.plot(*xyzs.T, "g-")
-    
+    lineNoisy, = ax.plot(*noisyData.T, "r-", label='Noisy Data')
+    lineFiltered, = ax.plot(*filteredData.T, "b-", label='Filtered Data')
+    lineSimulated, = ax.plot(*simulatedData.T, "g-", label='Simulated Data')
+
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
 
     if isinstance(ODE, Sprott):
-        ax.set_title("Sprott Case I Attractor") 
+        ax.set_title("Sprott Case I Attractor")
     elif isinstance(ODE, Lorenz):
-        ax.set_title("Lorenz Attractor") 
-        
+        ax.set_title("Lorenz Attractor")
+
+    ax.legend(handles=[lineNoisy, lineFiltered, lineSimulated], loc='upper right')
+
     plt.show()
 
 if __name__ == '__main__':
