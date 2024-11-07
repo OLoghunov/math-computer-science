@@ -1,7 +1,7 @@
-import matplotlib.pyplot as plt
 from ODE_Systems import *
 from NI_Methods import *
 from KalmanFilter import KalmanFilter
+from view import view
 
 ODE = Sprott()
 INTEGRATOR = Euler()
@@ -46,25 +46,20 @@ def main():
 
     filteredData = np.array(filteredData)
 
-    # Visualization
-    ax = plt.figure().add_subplot(projection="3d")
-
-    lineNoisy, = ax.plot(*noisyData.T, "r-", label='Noisy Data')
-    lineFiltered, = ax.plot(*filteredData.T, "b-", label='Filtered Data')
-    lineSimulated, = ax.plot(*simulatedData.T, "g-", label='Simulated Data')
-
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_zlabel("Z")
-
+    # Gather parameters for view
+    xRange = []
+    for i in range(num_steps):
+        xRange.append(ODE.stepSize() * i)
+        
     if isinstance(ODE, Sprott):
-        ax.set_title("Sprott Case I Attractor")
+        label1 = "Sprott Case I Attractor"
+        label2 = "Sprott Case I System"
     elif isinstance(ODE, Lorenz):
-        ax.set_title("Lorenz Attractor")
-
-    ax.legend(handles=[lineNoisy, lineFiltered, lineSimulated], loc='upper right')
-
-    plt.show()
-
+        label1 = "Lorenz Attractor"
+        label2 = "Lorenz System"
+        
+    # Visualization
+    view(noisyData, filteredData, simulatedData, xRange, label1, label2)
+    
 if __name__ == '__main__':
     main()
