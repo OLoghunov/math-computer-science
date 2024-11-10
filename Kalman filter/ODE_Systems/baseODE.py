@@ -14,3 +14,7 @@ class baseODE(ABC):
     @abstractmethod
     def calculate(self, xyz: list[float], **kwargs) -> list[float]:
         pass
+    
+    @abstractmethod
+    def jacobian(self, xyz: list[float], **kwargs) -> list[float]:
+        pass

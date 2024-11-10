@@ -3,7 +3,7 @@ from NI_Methods import *
 from KalmanFilter import KalmanFilter
 from view import view
 
-ODE = Sprott()
+ODE = Lorenz()
 INTEGRATOR = Euler()
 
 def main():    
@@ -30,12 +30,12 @@ def main():
         simulatedData[i + 1] = INTEGRATOR.integrate(ODE.calculate, simulatedData[i], step)
         
     # KF usage
-    processVar = 1e-3  # process noise
-    measurementVar = 0.02  # measurment noise
+    processNoise = 1e-3
+    measurementNoise = 0.02
     initState = np.array([0.1, 0.1, 0.1])
 
     # Filter initalization
-    kf = KalmanFilter(processVar, measurementVar, initState)
+    kf = KalmanFilter(processNoise, measurementNoise, initState)
 
     # Filtering process
     filteredData = []
