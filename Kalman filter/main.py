@@ -6,7 +6,7 @@ from view import view
 ODE = Lorenz()
 INTEGRATOR = Euler()
 
-def main():    
+def main():  
     # Getting noisy measurments from a file
     noisyData = []
     if isinstance(ODE, Sprott):

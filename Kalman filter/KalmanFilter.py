@@ -40,8 +40,7 @@ class KalmanFilter:
         K = np.dot(self._P, np.dot(self._H.T, np.linalg.inv(S)))  # Kalman gain matrix
         
         # Calculate the remainder
-        y = measurement - np.dot(self._H, self._state)  # measuring fault
-
+        y = measurement - np.dot(self._H, self._state)  # measuring error
         # Update the state
         self._state = self._state + np.dot(K, y)
         # Update the covariance fault
