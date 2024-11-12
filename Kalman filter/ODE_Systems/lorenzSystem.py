@@ -21,6 +21,6 @@ class Lorenz(baseODE):
     @classmethod    
     def jacobian(cls, xyz: list[float], s=10, r=28, b=2.667) -> list[float]:
         x, y, z = xyz.flatten()
-        return np.array([[-s, s, 0],
+        return np.array([[-s,   s,  0],
                          [r-z, -1, -x],
-                         [y, x, -b]])
+                         [ y,  x,  -b]])
