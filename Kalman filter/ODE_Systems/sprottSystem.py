@@ -2,9 +2,12 @@ from .baseODE import *
 import numpy as np
 
 class Sprott(baseODE):
+    
+    @property
     def initConditions(self):
         return (0.1, 0, 0)
     
+    @property
     def stepSize(self):
         return 0.1
 

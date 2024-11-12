@@ -20,11 +20,11 @@ def main():
     noisyData = np.array(noisyData)
     
     # System simulation
-    step = ODE.stepSize()
+    step = ODE.stepSize
     num_steps = len(noisyData)
 
     simulatedData = np.empty((num_steps, 3))
-    simulatedData[0] = ODE.initConditions()
+    simulatedData[0] = ODE.initConditions
 
     for i in range(num_steps - 1):
         simulatedData[i + 1] = INTEGRATOR.integrate(ODE.calculate, simulatedData[i], step)
@@ -49,7 +49,7 @@ def main():
     # Gather parameters for view
     xRange = []
     for i in range(num_steps):
-        xRange.append(ODE.stepSize() * i)
+        xRange.append(ODE.stepSize * i)
         
     if isinstance(ODE, Sprott):
         label1 = "Sprott Case I Attractor"

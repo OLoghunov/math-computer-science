@@ -2,9 +2,12 @@ from .baseODE import *
 import numpy as np
 
 class Lorenz(baseODE):
+    
+    @property
     def initConditions(self):
         return (5, 5, 5)
     
+    @property
     def stepSize(self):
         return 0.01
     
