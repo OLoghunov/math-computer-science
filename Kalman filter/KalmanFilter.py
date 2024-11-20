@@ -11,11 +11,12 @@ class KalmanFilter:
 
         self._Q = np.eye(3) * processNoise  # covariance of the process noise
         self._R = np.eye(3) * measurementNoise  # covariance of the observation noise
-        self._ODE = ode
+        self._ODE = ode # nonlinear dynamical system
         self._integrator = integrator
     
     def predict(self) -> None:
-        # x = F*x
+        # F = I - h*J
+        # x = f(x)
         # P = F*P*F.T + Q
 
         # Update transition matrix
@@ -28,9 +29,9 @@ class KalmanFilter:
         self._P = np.dot(self._F, np.dot(self._P, self._F.T)) + self._Q
         
     def correct(self, measurement):
-        # y = z - H*x
         # S = H*P*H.T + R
         # K = P*H*S^(-1)
+        # y = z - H*x
         # x = x + K*y
         # P = (I - K*H)*P
         
