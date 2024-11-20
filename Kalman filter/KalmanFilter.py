@@ -1,28 +1,28 @@
 import numpy as np
-from ODE_Systems import Lorenz
-from NI_Methods import Euler
 
 class KalmanFilter:
-    def __init__(self, processNoise, measurementNoise, init_state) -> None:
+    def __init__(self, processNoise, measurementNoise, init_state, ODE, integrator) -> None:
         # Filter parameters
         self._state = init_state.reshape(3, 1) # initial state [x, y, z]
         
         self._F = np.eye(3) # transition matrix
-        # self._F = Lorenz.jacobian(self._state)
         self._H = np.eye(3) # observation matrix
         self._P = np.eye(3) # covariance matrix
 
         self._Q = np.eye(3) * processNoise  # covariance of the process noise
         self._R = np.eye(3) * measurementNoise  # covariance of the observation noise
-        self._ODE = Lorenz()
+        self._ODE = ODE
+        self._integrator = integrator
     
     def predict(self) -> None:
         # x = F*x
         # P = F*P*F.T + Q
-        
+
+        # Update transition matrix
+        self._F = np.eye(3) + self._ODE.stepSize*self._ODE.jacobian(self._state)
+
         # Predict new state
-        self._state = np.dot(self._F, self._state)
-        # self._state = Euler.integrate(self._ODE.calculate, self._state, self._ODE.stepSize)
+        self._state = self._integrator.integrate(self._ODE.calculate, self._state, self._ODE.stepSize)
         
         # Predict covariance fault
         self._P = np.dot(self._F, np.dot(self._P, self._F.T)) + self._Q
@@ -48,11 +48,6 @@ class KalmanFilter:
         # Update the covariance fault
         I = np.eye(self._P.shape[0])  # unit matrix of dimention as P
         self._P = (I - np.dot(K, self._H)).dot(self._P)
-        
-        # K = np.dot(self._P, np.linalg.inv(self._P + self._R))  # Kalman gain matrix
-        # self._state = self._state + K.dot(measurement-Lorenz.calculate(self._state))
-        # I = np.eye(self._P.shape[0])  # unit matrix of dimention as P
-        # self._P = (I - K).dot(self._P)
         
     
     @property

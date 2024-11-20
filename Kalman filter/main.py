@@ -35,7 +35,7 @@ def main():
     initState = np.array([0.1, 0.1, 0.1])
 
     # Filter initalization
-    kf = KalmanFilter(processNoise, measurementNoise, initState)
+    kf = KalmanFilter(processNoise, measurementNoise, initState, ODE, INTEGRATOR)
 
     # Filtering process
     filteredData = []
