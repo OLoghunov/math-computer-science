@@ -1,7 +1,7 @@
 import numpy as np
 
 class KalmanFilter:
-    def __init__(self, processNoise, measurementNoise, init_state, ODE, integrator) -> None:
+    def __init__(self, processNoise, measurementNoise, init_state, ode, integrator) -> None:
         # Filter parameters
         self._state = init_state.reshape(3, 1) # initial state [x, y, z]
         
@@ -11,7 +11,7 @@ class KalmanFilter:
 
         self._Q = np.eye(3) * processNoise  # covariance of the process noise
         self._R = np.eye(3) * measurementNoise  # covariance of the observation noise
-        self._ODE = ODE
+        self._ODE = ode
         self._integrator = integrator
     
     def predict(self) -> None:
