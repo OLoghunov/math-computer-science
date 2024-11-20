@@ -15,7 +15,7 @@ class KalmanFilter:
         self._integrator = integrator
     
     def predict(self) -> None:
-        # F = I - h*J
+        # F = I + h*J
         # x = f(x)
         # P = F*P*F.T + Q
 
