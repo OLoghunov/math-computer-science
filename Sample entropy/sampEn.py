@@ -1,22 +1,24 @@
-import numpy 
+import numpy as np
 
-def construct_templates(timeseries_data, m):
-    num_windows = len(timeseries_data) - m + 1
-    return numpy.array([timeseries_data[x : x + m] for x in range(0, num_windows)])
 
-def get_matches(templates, r):
-    return len(
-        list(filter(lambda x: is_match(x[0], x[1], r), combinations(templates)))
-    )
+def sample_entropy(time_series, d, eps):
+    n = len(time_series)
+    if n <= d + 1:
+        raise ValueError("Time series is too short for given d.")
 
-def combinations(x):
-    idx = numpy.stack(numpy.triu_indices(len(x), k=1), axis=-1)
-    return x[idx]
+    def _phi(d):
+        count = 0
+        for i in range(n - d):
+            for j in range(i + 1, n - d):
+                if (
+                    np.max(np.abs(time_series[i : i + d] - time_series[j : j + d]))
+                    <= eps
+                ):
+                    count += 1
+        return count
 
-def is_match(template_1, template_2, r):
-    return numpy.all([abs(x - y) < r for (x, y) in zip(template_1, template_2)])
+    a = _phi(d)
+    b = _phi(d + 1)
 
-def sample_entropy(timeseries_data, window_size, r):
-    B = get_matches(construct_templates(timeseries_data, window_size), r)
-    A = get_matches(construct_templates(timeseries_data, window_size + 1), r)
-    return -numpy.log(A / B)
+    # Avoid log(0) by checking b
+    return -np.log(b / a) if b > 0 else np.inf
