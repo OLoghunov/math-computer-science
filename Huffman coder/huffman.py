@@ -32,14 +32,14 @@ class Huffman:
     def build_huffman_codes(self, root):
         codes = {}
 
-        def traverse(node, code):
+        def dfs(node, code):
             if node is not None:
                 if node.char is not None:
                     codes[node.char] = code
-                traverse(node.left, code + "0")
-                traverse(node.right, code + "1")
+                dfs(node.left, code + "0")
+                dfs(node.right, code + "1")
 
-        traverse(root, "")
+        dfs(root, "")
         return codes
 
     def encode_text(self, text, codes):
