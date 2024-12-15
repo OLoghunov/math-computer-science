@@ -14,7 +14,7 @@ class HuffmanNode:
 
 
 class Huffman:
-    def build_huffman_tree(self, text):
+    def buildHuffmanTree(self, text):
         self.frequency = Counter(text)
         priority_queue = [HuffmanNode(char, freq) for char, freq in self.frequency.items()]
         heapq.heapify(priority_queue)
@@ -29,7 +29,7 @@ class Huffman:
 
         return priority_queue[0] if priority_queue else None
 
-    def build_huffman_codes(self, root):
+    def buildHuffmanCodes(self, root):
         codes = {}
 
         def dfs(node, code):
@@ -42,5 +42,5 @@ class Huffman:
         dfs(root, "")
         return codes
 
-    def encode_text(self, text, codes):
+    def encodeText(self, text, codes):
         return "".join(codes[char] for char in text)

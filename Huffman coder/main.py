@@ -11,9 +11,9 @@ def main():
 
     huff = Huffman()
 
-    root = huff.build_huffman_tree(text)
-    huffmanCodes = huff.build_huffman_codes(root)
-    encodedText = huff.encode_text(text, huffmanCodes)
+    root = huff.buildHuffmanTree(text)
+    huffmanCodes = huff.buildHuffmanCodes(root)
+    encodedText = huff.encodeText(text, huffmanCodes)
 
     with open(outputPath, "w", encoding='utf-8') as f:
         sorted_codes = sorted(huffmanCodes.items(), key=lambda item: huff.frequency[item[0]], reverse=True)
