@@ -3,7 +3,7 @@ from huffman import Huffman
 
 def main():
     inputPath = "Huffman coder/data/poem.txt"
-    outputPath = "Huffman coder/data/encodedPoem.txt"
+    outputPath = "Huffman coder/data/poem.huff"
 
     with open(inputPath, 'r', encoding='utf-8') as f:
         text = f.read()
