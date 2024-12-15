@@ -22,9 +22,6 @@ def main():
     for i, path in enumerate(paths):
         data = pd.read_excel(path, header=None, nrows=200).iloc[:, [2]].to_numpy()
 
-        # O(n^2 * d)
-        # eps = 0.2 * np.std(data)  # порог (20% стандартного отклонения)
-
         xrange = []
         start_time = time.time()
 
