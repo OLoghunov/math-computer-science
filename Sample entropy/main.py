@@ -13,21 +13,25 @@ def main():
         "Sample entropy/data/3.xlsx",
     ]
 
+    # SampEn parameters
     epsRange = np.arange(0.1, 1.1, 0.005)
-    nrows = len(epsRange)
+    m = 2
 
-    entropies = np.zeros(shape=(3, nrows))
-    d = 2
+    entropies = np.zeros(shape=(3, len(epsRange)))
 
     for i, path in enumerate(paths):
-        data = pd.read_excel(path, header=None).iloc[:, [2]].to_numpy()
-        data = data[::5]
+
+        # We read every fifth entry
+        data = pd.read_excel(
+            path, header=None, usecols=[2], skiprows=lambda x: x % 5 != 0
+        ).to_numpy()
 
         xrange = []
+        
         start_time = time.time()
 
         for j, eps in enumerate(epsRange):
-            entropy = sample_entropy(data, d, eps)
+            entropy = sampleEntropy(data, m, eps)
             entropies[i][j] = entropy
             xrange.append(eps)
 
