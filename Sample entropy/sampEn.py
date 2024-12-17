@@ -11,6 +11,7 @@ def sampleEntropy(signal, m, r):
         for i in range(len(templates)):
             # Chebyshev distance
             dist = np.max(np.abs(templates - templates[i]), axis=1)
+            # We exclude the coincidence of the template with itself (subtracting 1)
             count += np.sum(dist <= r) - 1
         return count / (len(templates) * (len(templates) - 1))
 
