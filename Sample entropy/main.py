@@ -20,7 +20,8 @@ def main():
     d = 2
 
     for i, path in enumerate(paths):
-        data = pd.read_excel(path, header=None, nrows=200).iloc[:, [2]].to_numpy()
+        data = pd.read_excel(path, header=None).iloc[:, [2]].to_numpy()
+        data = data[::5]
 
         xrange = []
         start_time = time.time()
@@ -36,4 +37,5 @@ def main():
 
 
 if __name__ == "__main__":
+    print("Entropy estimation")
     main()
