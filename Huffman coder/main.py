@@ -1,4 +1,5 @@
 from huffman import Huffman
+from shannon import shannonEntropy
 
 
 def main():
@@ -9,6 +10,9 @@ def main():
     # Reading a file
     with open(inputPath, "r", encoding="utf-8") as f:
         text = f.read().rstrip()
+
+    # Calculate Shannon entropy
+    print(f"Shannon entropy = {shannonEntropy(text)}")
 
     # Calculate the initial text size
     S = len(text.encode("utf-8")) * 8
@@ -21,10 +25,15 @@ def main():
     encodedText = huff.encodeText(text, huffmanCodes)
 
     # Calculate the encoded text size
-    C = len(encodedText)
+    C = (
+        len(huffmanCodes) * 2 * 8
+        + sum([len(val) for val in huffmanCodes.values()])
+        + len(encodedText)
+    )
     print(f"The length |C| of the encoded text in bits = {C}")
     print(f"Compression ratio k = |S|/|C| = {S/C}")
 
+    # Dictionary of probabilities
     freqs = {key: freq / len(text) for key, freq in huff.frequency.items()}
 
     # Writing the frequency of characters
