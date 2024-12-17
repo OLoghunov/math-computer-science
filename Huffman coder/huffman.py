@@ -1,5 +1,6 @@
 import heapq
 from collections import Counter
+from shannon import shannonEntropy
 
 
 class HuffmanNode:
@@ -16,6 +17,9 @@ class HuffmanNode:
 class Huffman:
     def buildHuffmanTree(self, text):
         self.frequency = Counter(text)
+        
+        print(f"Shannon entropy = {shannonEntropy(text)}")
+        
         priority_queue = [HuffmanNode(char, freq) for char, freq in self.frequency.items()]
         heapq.heapify(priority_queue)
 
