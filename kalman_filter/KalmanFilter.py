@@ -1,6 +1,6 @@
 import numpy as np
-from ODE_Systems import *
-from NI_Methods import *
+from ode_systems import *
+from ni_methods import *
 
 class KalmanFilter:
     def __init__(self, processNoise, measurementNoise, init_state, ode, integrator) -> None:

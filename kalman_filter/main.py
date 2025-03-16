@@ -1,18 +1,18 @@
-from ODE_Systems import *
-from NI_Methods import *
-from KalmanFilter import KalmanFilter
-from view import view
+from ode_systems import *
+from ni_methods import *
+from kalman_filter.KalmanFilter import KalmanFilter
+from kalman_filter.view import view
 
 ODE = Lorenz()
-INTEGRATOR = Euler()
+INTEGRATOR = AdamsBashforth2()
 
 def main():  
     # Getting noisy measurments from a file
     noisyData = []
     if isinstance(ODE, Sprott):
-        path = "Kalman filter/data/data3.txt"
+        path = "kalman_filter/data/data3.txt"
     elif isinstance(ODE, Lorenz):
-        path = "Kalman filter/data/data2.txt"
+        path = "kalman_filter/data/data2.txt"
         
     with open(path, "r") as file:
         for line in file:
