@@ -7,9 +7,9 @@ from view import view
 
 def main():
     paths = [
-        "Sample entropy/data/1.xlsx",
-        "Sample entropy/data/2.xlsx",
-        "Sample entropy/data/3.xlsx",
+        "sample_entropy/data/1.xlsx",
+        "sample_entropy/data/2.xlsx",
+        "sample_entropy/data/3.xlsx",
     ]
 
     # SampEn parameters
