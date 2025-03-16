@@ -1,4 +1,6 @@
 import numpy as np
+from ODE_Systems import *
+from NI_Methods import *
 
 class KalmanFilter:
     def __init__(self, processNoise, measurementNoise, init_state, ode, integrator) -> None:
@@ -11,7 +13,7 @@ class KalmanFilter:
 
         self._Q = np.eye(3) * processNoise  # covariance of the process noise
         self._R = np.eye(3) * measurementNoise  # covariance of the observation noise
-        self._ODE = ode # nonlinear dynamical system
+        self._ODE: baseODE = ode # nonlinear dynamical system
         self._integrator = integrator
     
     def predict(self) -> None:
@@ -43,9 +45,9 @@ class KalmanFilter:
         K = np.dot(self._P, np.dot(self._H.T, np.linalg.inv(S)))  # Kalman gain matrix
         
         # Calculate the remainder
-        y = measurement - np.dot(self._H, self._state)  # measuring error
+        y = measurement - np.dot(self._H, self._state.reshape(3, 1))  # measuring error
         # Update the state
-        self._state = self._state + np.dot(K, y)
+        self._state = self._state.reshape(3, 1) + np.dot(K, y)
         # Update the covariance fault
         I = np.eye(self._P.shape[0])  # unit matrix of dimention as P
         self._P = (I - np.dot(K, self._H)).dot(self._P)

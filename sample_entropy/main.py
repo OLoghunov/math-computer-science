@@ -14,7 +14,7 @@ def main():
 
     # SampEn parameters
     epsRange = np.arange(0.1, 1.1, 0.05)
-    mRange = range(1, 42, 10)
+    mRange = range(1, 82, 20)
 
     entropies = np.zeros((3, len(mRange), len(epsRange)))
 
